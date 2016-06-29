@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Handlebars!</title>
+	<script src="handlebars-v4.0.5.js"></script>
+	<style>
+		.redText{
+			color: red;
+		}
+		.blueText{
+			color: blue;
+		}
+		.greenText{
+			color: green;
+		}
+	</style>
+</head>
+<body>
+	<div id="quoteData">
+		
+	</div>
+	<script id="quotes-template" type="text/x-handlebars-template">
+		<h3>Favourite {{name}} Quotes</h3>
+		<ol>
+		{{#each quotes}}
+			<li>{{quote}}
+		{{/each}}
+		</ol>
+		{{{yogiBio}}}
+		{{makeLink "Learn more" "http://www.google.com"}}<br>
+
+		{{changeColor "Make My Text Red" color="red"}}<br>
+
+		{{sayHello}}
+	</script>
+	<script>
+		var quoteInfo=document.getElementById('quotes-template').innerHTML;
+		var template= Handlebars.compile(quoteInfo);
+		Handlebars.registerHelper("makeLink", function (text,link) {
+			text=Handlebars.Utils.escapeExpression(text);
+			link=Handlebars.Utils.escapeExpression(link);
+			var theLink= '<a href="'+link+'">'+text+"</a>";
+			return new Handlebars.SafeString(theLink);
+		});
+
+		Handlebars.registerHelper("changeColor", function(text, option) {
+			text= Handlebars.Utils.escapeExpression(text);
+			if(option.hash.color === "red"){
+				return new Handlebars.SafeString("<span class='redText'>"+text+"</span>");
+			}
+			else if(option.hash.color === "blue"){
+				return new Handlebars.SafeString("<span class='blueText'>"+text+"</span>");
+			}
+			else{
+				return new Handlebars.SafeString("<span class='greenText'>"+text+"</span>");
+			}
+
+		});
+
+		Handlebars.registerHelper("sayHello",function(options) {
+			switch(options.data.lang){
+				case "spanish":
+					return "Hola";
+					break;
+				case "french":
+					return "Bonjour";
+					break;
+				default:
+					return "Hello";
+					break;
+
+
+			}
+		});
+		var quoteData= template({
+			name: "Yogi Berra",
+			quotes:[
+				{quote:"Quote1"},
+				{quote:"Quote2"},
+				{quote:"Quote3"}
+			],
+			yogiBio:"<i>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur, sunt.</i>"
+		}, {data: {
+			lang: "english"
+		} });
+
+		document.getElementById('quoteData').innerHTML+=quoteData;
+	</script>
+</body>
+</html>
