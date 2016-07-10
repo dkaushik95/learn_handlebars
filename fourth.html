@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src='handlebars-v4.0.5.js'></script>
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="contentDiv">
+		
+	</div>
+	<script type="text/x-handlebars-template" id="the-template">
+	    <div class='potter1'>
+	    	<h3>{{title}}</h3>
+	    	{{#with techData}}
+	    		<div class='isbn'>
+	    			{{isbn}}
+	    		</div>
+	    		<div class='author'>
+	    			{{author}}
+	    		</div>
+	    	{{/with}}
+	    </div>
+	</script>
+	<script>
+		var templateInfo= document.getElementById('the-template').innerHTML;
+		var template= Handlebars.compile(templateInfo);
+		Handlebars.registerHelper('with', function (context, option) {
+			return option.fn(context);
+		});
+		var templateData=template({
+			title: 'Title of the data',
+			techData: {
+				isbn:'123-4-567-2-5',
+				author: 'Dishant'
+			}
+		});
+		document.getElementById('contentDiv').innerHTML+=templateData;
+
+	</script>
+</body>
+</html>

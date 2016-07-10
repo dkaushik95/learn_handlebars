@@ -14,6 +14,18 @@
 			  Medium
 			  Large
 			{{/makeRadio}}
+
+			{{#areEqual 1 2 }}
+				Numbers are equal
+			{{else}}
+				Numbers are not equal
+			{{/areEqual}} <br>
+
+			{{#ifd 'isActive'}}
+				<p>This is active!</p>
+			{{else}}
+				<p>This is not active</p>
+			{{/ifd}}
 		</script>
 
 		<script>
@@ -29,6 +41,23 @@
 					output+="<input type='radio' name='"+name+"' value='"+item+"'>"+item+"<br>";
 				}
 				return output;
+			});
+			Handlebars.registerHelper("areEqual",function(num1, num2, options) {
+					if (num1=== num2) {
+						return options.fn(this);
+					}
+					else{
+						return options.inverse(this);
+					}
+			});
+
+			Handlebars.registerHelper('ifd', function (data, options) {
+					if (data === 'isActive') {
+						options.fn(this);
+					}
+					else{
+						options.inverse(this);
+					}
 			});
 			var templateData=template({});
 			document.getElementById('contentDiv').innerHTML+= templateData;
